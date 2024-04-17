@@ -36,6 +36,16 @@ class AccountTest {
     @Test
     void hash() {
         account.hashPassword();
-        System.out.println(account.getPassword());
+    }
+
+    @Test
+    void testSavedAccount() {
+        account.hashPassword();
+
+        assertEquals(1L, account.getId());
+        assertEquals("Test", account.getName());
+        assertEquals("Test@test.com", account.getEmail());
+        assertTrue(argon2PasswordEncoder.matches("test", account.getPassword()));
+        assertEquals(UserRole.USER, account.getUserRole());
     }
 }
