@@ -1,6 +1,5 @@
 package at.simstoe.jobportal.backend.models;
 
-import at.simstoe.jobportal.backend.models.enums.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -34,8 +33,9 @@ public class Account {
     @Size(max = 150)
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private UserRole userRole;
+    @NotBlank
+    @Size(max = 20)
+    private String userRole;
 
     public void hashPassword() {
         Argon2PasswordEncoder argon2PasswordEncoder = new Argon2PasswordEncoder(16,32,1,60000,10);

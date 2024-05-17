@@ -1,6 +1,5 @@
 package at.simstoe.jobportal.backend.models;
 
-import at.simstoe.jobportal.backend.models.enums.UserRole;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,7 +7,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AccountTest {
     Account account;
@@ -16,7 +16,7 @@ class AccountTest {
 
     @BeforeEach
     void setUp() {
-        account = new Account(1L, "Test", "Test@test.com", "test", UserRole.USER);
+        account = new Account(1L, "Test", "Test@test.com", "test", "Test");
         argon2PasswordEncoder = new Argon2PasswordEncoder(16,32,1,60000,10);
     }
 
@@ -46,6 +46,5 @@ class AccountTest {
         assertEquals("Test", account.getName());
         assertEquals("Test@test.com", account.getEmail());
         assertTrue(argon2PasswordEncoder.matches("test", account.getPassword()));
-        assertEquals(UserRole.USER, account.getUserRole());
     }
 }
