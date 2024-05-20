@@ -15,22 +15,39 @@ public class AccountController {
     private final AccountService accountService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<Account>> getAllAccount() {
+    public ResponseEntity<List<Account>> getAllAccounts() {
         return ResponseEntity.ok(this.accountService.getAllAccounts());
     }
 
     @PostMapping("/create")
     public ResponseEntity<Account> addAccount(@RequestBody Account account) {
+        if (this.accountService.getAccountByEmail(account.getEmail()) != null) return ResponseEntity.badRequest().build();
+        if (this.accountService.getAccountByName(account.getName()) != null) return ResponseEntity.badRequest().build();
+
         return ResponseEntity.ok(this.accountService.createAccount(account));
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<Account> updateAccount(@RequestBody Account account) {
-        return ResponseEntity.ok(this.accountService.updateAccount(account));
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Account> updateAccount(@PathVariable Long id, @RequestBody Account account) {
+        Account existingAccount = this.accountService.getAccountById(id);
+
+        if (existingAccount == null) return ResponseEntity.badRequest().build();
+
+        existingAccount.setName(account.getName());
+        existingAccount.setEmail(account.getEmail());
+        existingAccount.setPassword(account.getPassword());
+        existingAccount.setUserRole(account.getUserRole());
+
+        return ResponseEntity.ok(this.accountService.updateAccount(existingAccount));
     }
 
-    @DeleteMapping("/delete/{email}")
-    public ResponseEntity<Account> deleteAccount(@PathVariable String email) {
-        return ResponseEntity.ok(this.accountService.deleteAccountByEmail(email));
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteAccount(@PathVariable Long id) {
+        boolean isDeleted = this.accountService.deleteAccountById(id);
+        if (isDeleted) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

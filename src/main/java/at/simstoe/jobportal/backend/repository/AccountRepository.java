@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AccountRepository extends JpaRepository<Account, Long> {
     Account findAccountByEmail(String email);
-
-    Account deleteAccountByEmail(String email);
+    Account findAccountById(Long id);
+    Account findAccountByName(String name);
 }

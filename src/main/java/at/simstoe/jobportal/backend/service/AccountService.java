@@ -4,6 +4,7 @@ import at.simstoe.jobportal.backend.models.Account;
 import at.simstoe.jobportal.backend.repository.AccountRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,31 +17,40 @@ public class AccountService {
         return this.accountRepository.findAll();
     }
 
+    public Account createAccount(Account account) {
+        if (this.accountRepository.findAccountByEmail(account.getEmail()) != null) return null;
+        if (this.accountRepository.findAccountByName(account.getName()) != null) return null;
+
+        return this.accountRepository.save(account);
+    }
+
     public Account getAccountByEmail(String email) {
         return this.accountRepository.findAccountByEmail(email);
     }
 
-    public Account createAccount(Account account) {
-        return this.accountRepository.save(account);
+    public Account getAccountByName(String name) {
+        return this.accountRepository.findAccountByName(name);
     }
 
     public Account updateAccount(Account account) {
         Account existingAccount = this.accountRepository.findById(account.getId()).orElse(null);
 
-        assert existingAccount != null;
+        if (existingAccount == null) return null;
         existingAccount.setName(account.getName());
         existingAccount.setEmail(account.getEmail());
         existingAccount.setPassword(account.getPassword());
 
-        return this.accountRepository.save(account);
+        return this.accountRepository.save(existingAccount);
     }
 
-    public Account deleteAccountByEmail(String email) {
-        Account account = this.accountRepository.findAccountByEmail(email);
-
-        this.accountRepository.delete(account);
-
-        return account;
+    @Transactional
+    public boolean deleteAccountById(Long id) {
+        if (this.accountRepository.findAccountById(id) == null) return false;
+        this.accountRepository.deleteById(id);
+        return true;
     }
 
+    public Account getAccountById(Long id) {
+        return this.accountRepository.findAccountById(id);
+    }
 }
