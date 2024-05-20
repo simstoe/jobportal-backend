@@ -7,7 +7,9 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Entity
 @NoArgsConstructor
@@ -37,9 +39,21 @@ public class Account {
     @Size(max = 20)
     private String userRole;
 
-    public void hashPassword() {
-        Argon2PasswordEncoder argon2PasswordEncoder = new Argon2PasswordEncoder(16,32,1,60000,10);
+    @Component
+    public static class PasswordHasher {
+        private static PasswordEncoder passwordEncoder;
 
-        this.password = argon2PasswordEncoder.encode(this.password);
+        @Autowired
+        public PasswordHasher(PasswordEncoder passwordEncoder) {
+            PasswordHasher.passwordEncoder = passwordEncoder;
+        }
+
+        public static String encode(String password) {
+            return passwordEncoder.encode(password);
+        }
+    }
+
+    public void hashPassword() {
+        this.password = PasswordHasher.encode(this.password);
     }
 }

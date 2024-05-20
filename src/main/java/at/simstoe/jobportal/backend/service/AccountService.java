@@ -21,6 +21,7 @@ public class AccountService {
         if (this.accountRepository.findAccountByEmail(account.getEmail()) != null) return null;
         if (this.accountRepository.findAccountByName(account.getName()) != null) return null;
 
+        account.hashPassword();
         return this.accountRepository.save(account);
     }
 
