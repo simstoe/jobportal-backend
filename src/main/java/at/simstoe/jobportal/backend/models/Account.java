@@ -4,16 +4,11 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @Data
 public class Account {
     @Id
@@ -39,21 +34,11 @@ public class Account {
     @Size(max = 20)
     private String userRole;
 
-    @Component
-    public static class PasswordHasher {
-        private static PasswordEncoder passwordEncoder;
-
-        @Autowired
-        public PasswordHasher(PasswordEncoder passwordEncoder) {
-            PasswordHasher.passwordEncoder = passwordEncoder;
-        }
-
-        public static String encode(String password) {
-            return passwordEncoder.encode(password);
-        }
-    }
-
-    public void hashPassword() {
-        this.password = PasswordHasher.encode(this.password);
+    public Account(Long id, String name, String email, String password, String userRole) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.userRole = userRole;
     }
 }
