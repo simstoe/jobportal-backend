@@ -5,8 +5,10 @@ import jakarta.persistence.Embeddable;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 @Embeddable
 public class JobDetails {
@@ -16,7 +18,4 @@ public class JobDetails {
     private double salary;
     private String timeModel;
     private String location;
-
-    // No-arg constructor for JPA
-    protected JobDetails() {}
 }

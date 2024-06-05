@@ -12,6 +12,9 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Job {
     @Id
+    @Column(nullable = false, updatable = false, unique = true)
+    @SequenceGenerator(name = "jobModel_sequence", sequenceName = "jobModel_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "jobModel_sequence")
     private Long id;
     private String name;
 
