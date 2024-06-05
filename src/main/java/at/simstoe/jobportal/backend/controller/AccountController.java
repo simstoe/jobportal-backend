@@ -29,7 +29,7 @@ public class AccountController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Account> updateAccount(@PathVariable Long id, @RequestBody Account account) {
-        Account existingAccount = this.accountService.getAccountById(id);
+        var existingAccount = this.accountService.getAccountById(id);
 
         if (existingAccount == null) return ResponseEntity.badRequest().build();
 
@@ -43,7 +43,8 @@ public class AccountController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteAccount(@PathVariable Long id) {
-        boolean isDeleted = this.accountService.deleteAccountById(id);
+        var isDeleted = this.accountService.deleteAccountById(id);
+
         if (isDeleted) {
             return ResponseEntity.ok().build();
         } else {

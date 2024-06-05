@@ -30,7 +30,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetails() {
-        UserDetails user = User.builder()
+        var user = User.builder()
                 .passwordEncoder(passwordEncoder()::encode)
                 .username("Test12345_")
                 .password("Test12345_")
@@ -41,7 +41,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        String defaultID = "argon2id";
+        var defaultID = "argon2id";
         Map<String, PasswordEncoder> encoderMap = new HashMap<>();
 
         encoderMap.put("argon2id", new Argon2PasswordEncoder(16, 32, 1, 60000, 10));
