@@ -19,4 +19,17 @@ public class JobService {
     public Job getJobById(Long id) {
         return this.jobRepository.findJobById(id);
     }
+
+    public Job createJob(Job job) {
+        return this.jobRepository.save(job);
+    }
+
+    public Job updateJob(Job job) {
+        Job existingJob = this.jobRepository.findJobById(job.getId());
+
+        if (existingJob == null) return null;
+        existingJob = new Job(job);
+
+        return this.jobRepository.save(existingJob);
+    }
 }
