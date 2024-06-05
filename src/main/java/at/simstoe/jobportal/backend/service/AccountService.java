@@ -33,7 +33,7 @@ public class AccountService {
     }
 
     public Account updateAccount(Account account) {
-        Account existingAccount = this.accountRepository.findById(account.getId()).orElse(null);
+        var existingAccount = this.accountRepository.findById(account.getId()).orElse(null);
 
         if (existingAccount == null) return null;
 
@@ -48,6 +48,7 @@ public class AccountService {
     @Transactional
     public boolean deleteAccountById(Long id) {
         if (this.accountRepository.findAccountById(id) == null) return false;
+
         this.accountRepository.deleteById(id);
         return true;
     }

@@ -25,7 +25,7 @@ public class JobService {
     }
 
     public Job updateJob(Job job) {
-        Job existingJob = this.jobRepository.findJobById(job.getId());
+        var existingJob = this.jobRepository.findJobById(job.getId());
 
         if (existingJob == null) return null;
         existingJob = new Job(job);
