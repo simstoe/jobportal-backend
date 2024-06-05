@@ -24,4 +24,12 @@ public class Job {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
+
+    public Job(Job job) {
+        this.id = job.id;
+        this.name = job.name;
+        this.jobDetails = new JobDetails(job.jobDetails);
+        this.companyID = job.companyID;
+        this.category = new Category(job.category);
+    }
 }

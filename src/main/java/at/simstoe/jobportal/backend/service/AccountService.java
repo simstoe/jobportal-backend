@@ -36,6 +36,8 @@ public class AccountService {
         Account existingAccount = this.accountRepository.findById(account.getId()).orElse(null);
 
         if (existingAccount == null) return null;
+
+        //TODO: copy-constructor
         existingAccount.setName(account.getName());
         existingAccount.setEmail(account.getEmail());
         existingAccount.setPassword(account.getPassword());

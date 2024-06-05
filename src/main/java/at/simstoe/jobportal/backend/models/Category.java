@@ -17,4 +17,10 @@ public class Category {
     private Long id;
     private String name;
     private String hexCode;
+
+    public Category(Category category) {
+        this.id = category.id;
+        this.name = category.name;
+        this.hexCode = category.hexCode;
+    }
 }
