@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +25,19 @@ public class JobService {
     }
 
     public Job createJob(Job job) {
-        var category = categoryRepository.save(job.getCategory());
-        job.setCategory(category);
+        if (job.getCategory() == null || job.getCategory().getId() == null) {
+            throw new IllegalArgumentException("Category ID must not be null");
+        }
+
+        Optional<Category> categoryOpt = categoryRepository.findById(job.getCategory().getId());
+
+        if (categoryOpt.isEmpty()) {
+            categoryRepository.save(job.getCategory());
+            job.setCategory(job.getCategory());
+        } else {
+            job.setCategory(categoryOpt.get());
+        }
+
         return this.jobRepository.save(job);
     }
 

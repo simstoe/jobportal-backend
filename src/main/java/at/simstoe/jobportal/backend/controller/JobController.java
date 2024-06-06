@@ -35,7 +35,7 @@ public class JobController {
 
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteJob(@PathVariable Long id) {
         var isDeleted = this.jobService.deleteJobById(id);
 
