@@ -23,7 +23,7 @@ public class Job {
     private JobDetails jobDetails;
     private Long companyID;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Category category;
 
     public Job(Job job) {
