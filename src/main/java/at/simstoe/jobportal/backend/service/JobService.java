@@ -19,9 +19,8 @@ public class JobService {
     public List<Job> getJobs() {
         List<Job> jobs = this.jobRepository.findAll();
 
-        // Expizit Initialisierung der Beziehungen, um Hibernate-Proxys aufzulösen
         for (Job job : jobs) {
-            job.getCategory().getName(); // Beispiel: wenn `Category` eine Eigenschaft `name` hat
+            job.getCategory().getName();
         }
 
         return jobs;

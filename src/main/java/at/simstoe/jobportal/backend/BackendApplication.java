@@ -9,11 +9,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
+import java.util.List;
 
 @SpringBootApplication
 @ConfigurationPropertiesScan("at.simstoe.jobportal.backend.*")
 public class BackendApplication {
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         SpringApplication.run(BackendApplication.class, args);
     }
 
@@ -21,14 +22,16 @@ public class BackendApplication {
     public CorsFilter corsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowCredentials(true);
+
         //TODO: change ip because of CORS
-        corsConfiguration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:5500"));
+        corsConfiguration.setAllowedOrigins(List.of("http://127.0.0.1:5500"));
         corsConfiguration.setAllowedHeaders(Arrays.asList("Origin", "Access-Control-Allow-Origin", "Content-Type",
                 "Accept", "Authorization", "Origin, Accept", "X-Requested-With",
                 "Access-Control-Request-Method", "Access-Control-Request-Headers"));
         corsConfiguration.setExposedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "Authorization",
                 "Access-Control-Allow-Origin", "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"));
         corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
         urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
         return new CorsFilter(urlBasedCorsConfigurationSource);
