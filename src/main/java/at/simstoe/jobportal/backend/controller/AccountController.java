@@ -14,12 +14,12 @@ import java.util.List;
 public class AccountController {
     private final AccountService accountService;
 
-    @GetMapping("/all")
+    @GetMapping("/")
     public ResponseEntity<List<Account>> getAllAccounts() {
         return ResponseEntity.ok(this.accountService.getAllAccounts());
     }
 
-    @PostMapping("/create")
+    @PostMapping("/")
     public ResponseEntity<Account> addAccount(@RequestBody Account account) {
         if (this.accountService.getAccountByEmail(account.getEmail()) != null) return ResponseEntity.badRequest().build();
         if (this.accountService.getAccountByName(account.getName()) != null) return ResponseEntity.badRequest().build();
@@ -41,7 +41,7 @@ public class AccountController {
         return ResponseEntity.ok(this.accountService.updateAccount(existingAccount));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAccount(@PathVariable Long id) {
         var isDeleted = this.accountService.deleteAccountById(id);
 
